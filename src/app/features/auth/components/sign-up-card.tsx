@@ -1,11 +1,34 @@
+import z from "zod";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { DottedSeparator } from '@/components/dotted-separator'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
-import React from 'react'
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+
+const formSchema = z.object({
+    name: z.string(),
+    email: z.string().email(),
+    password: z.string().min(6, "Min length password").max(256, "Max length password"),
+})
 
 export function SignUpCard() {
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues:{
+            name: "",
+            email: "",
+            password: "",
+        }
+    })
+
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        console.log(values)
+    }
+
     return (
         <Card className='w-full h-full md:w-[487px] border-none shadow-none'>
             <CardHeader className='flex items-center justify-center text-center p-7'>
@@ -27,37 +50,61 @@ export function SignUpCard() {
                 <DottedSeparator />
             </div>
             <CardContent className='p-7'>
-                <form className='space-y-4'>
-                    <Input 
-                        required
-                        type='name'
-                        value={''}
-                        onChange={() => {}}
-                        placeholder='Enter your name'
-                        disabled={false}
-                    />
-                    <Input 
-                        required
-                        type='email'
-                        value={''}
-                        onChange={() => {}}
-                        placeholder='Enter email address'
-                        disabled={false}
-                    />
-                    <Input 
-                        required
-                        type='passward'
-                        value={''}
-                        onChange={() => {}}
-                        placeholder='Enter password'
-                        disabled={false}
-                        min={8}
-                        max={256}
-                    />
-                    <Button variant={'teal'} disabled={false} size={'lg'} className='w-full'>
-                        Sign Up
-                    </Button>
-                </form>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+                        <FormField 
+                            name="name"
+                            control={form.control}
+                            render={({ field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            type='name'
+                                            placeholder='Enter your name'
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            name="email"
+                            control={form.control}
+                            render={({ field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            type='email'
+                                            placeholder='Enter email address'
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField 
+                            name="password"
+                            control={form.control}
+                            render={({ field}) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            type='password'
+                                            placeholder='Enter password'
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button variant={'teal'} disabled={false} size={'lg'} className='w-full'>
+                            Sign Up
+                        </Button>
+                    </form>
+                </Form>
             </CardContent>
             <div className='px-7'>
                 <DottedSeparator />

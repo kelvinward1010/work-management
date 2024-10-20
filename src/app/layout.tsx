@@ -4,9 +4,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 
 
-const inter = Inter({
-  subsets: ["latin"]
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Work management",
@@ -19,9 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html 
+      lang="en"
+      suppressHydrationWarning={true}
+      suppressContentEditableWarning={true}
+    >
       <body
         className={cn(inter.className, "antialiased min-h-screen")}
+        suppressHydrationWarning={true}
+        suppressContentEditableWarning={true}
       >
         {children}
       </body>
