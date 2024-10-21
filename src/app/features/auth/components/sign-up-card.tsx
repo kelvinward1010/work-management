@@ -10,9 +10,9 @@ import Link from 'next/link'
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const formSchema = z.object({
-    name: z.string(),
+    name: z.string().trim().min(1, 'Required'),
     email: z.string().email(),
-    password: z.string().min(6, "Min length password").max(256, "Max length password"),
+    password: z.string().min(6, "Minimun of 8 characters required").max(256, "Max length password"),
 })
 
 export function SignUpCard() {
