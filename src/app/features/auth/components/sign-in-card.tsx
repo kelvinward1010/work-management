@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import Link from "next/link";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -87,6 +88,17 @@ export function SignInCard() {
                 <Button disabled={false} className='w-full' size={'lg'} variant={'secondary'}>
                     Login with Github
                 </Button>
+            </CardContent>
+            <div className='px-7'>
+                <DottedSeparator />
+            </div>
+            <CardContent className="p-7 flex items-center justify-center">
+                <p>
+                    Don&apos;t have an account?
+                    <Link href={'/sign-up'}>
+                        <span className="text-blue-700">Sign Up</span>
+                    </Link>
+                </p>
             </CardContent>
         </Card>
     )
